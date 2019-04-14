@@ -31,14 +31,22 @@ const UserSchema = new mongoose.Schema({
     type: [String],
     default: ['user']
   },
-  created: {
+  status: {
+    type: String,
+    enum: ['confirmed', 'pending', 'blocked'],
+    default: 'pending'
+  },
+  createdAt: {
     type: Date,
     default: Date.now
   },
-  updated: {
+  updatedAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  confirmationToken: String,
+  resetPasswordToken: String,
+  resetPasswordExpired: Date
 })
 
 UserSchema.pre('save', function preSave (next) {
@@ -50,10 +58,10 @@ UserSchema.pre('save', function preSave (next) {
 
   const now = new Date()
 
-  this.updated = now
+  this.updatedAt = now
 
-  if (!this.created) {
-    this.created = now
+  if (!this.createdAt) {
+    this.createdAt = now
   }
 
   next()

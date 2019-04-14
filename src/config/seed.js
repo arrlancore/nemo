@@ -5,10 +5,10 @@ const data = {
   'role': 'user',
   'email': 'admin@myorg.com',
   'password': '$2a$10$byKLt0gD596e9y088YxGYejlOFRmLkwpg5prFBmVUsQEewgNKcnre',
-  'created': {
+  'createdAt': {
     '$date': '2019-04-07T05:18:26.920Z'
   },
-  'updated': {
+  'updatedAt': {
     '$date': '2019-04-07T05:18:27.143Z'
   },
   '__v': 0

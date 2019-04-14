@@ -10,9 +10,10 @@ export default {
 
 async function login (req, res) {
   try {
-    console.log(req.body)
     const { email, password } = req.body
     const notfoundMessage = 'email or password is incorrect'
+    const notConfirmedMessage = 'your email is not verified yet, check your email and click link verification'
+    const suspenseMessage = 'your account has been suspended, please contact our support'
     const user = await services.getUserByEmail(email)
 
     if (!user) throw new Error(notfoundMessage)
@@ -21,6 +22,12 @@ async function login (req, res) {
         return res.status(401).send({ message: notfoundMessage })
       }
       user.password = undefined
+      if (user.status === 'pending') {
+        return res.status(403).json({ message: notConfirmedMessage })
+      }
+      if (user.status === 'blocked') {
+        return res.status(403).json({ message: suspenseMessage })
+      }
       user.generateToken(user, token => {
         res.status(201).json({ token, data: user })
       })
