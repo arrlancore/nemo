@@ -10,16 +10,18 @@ export default {
 
 async function login (req, res) {
   try {
+    console.log(req.body)
     const { email, password } = req.body
     const notfoundMessage = 'email or password is incorrect'
     const user = await services.getUserByEmail(email)
+
     if (!user) throw new Error(notfoundMessage)
     await user.authenticate(password, isMatch => {
       if (!isMatch) {
         return res.status(401).send({ message: notfoundMessage })
       }
+      user.password = undefined
       user.generateToken(user, token => {
-        user.password = undefined
         res.status(201).json({ token, data: user })
       })
     })

@@ -8,10 +8,11 @@ const defaultConfig = {
   appName: 'backend-app',
   db: 'mongodb://admin:mySecretP4ssword@ds137862.mlab.com:37862/dev-pbisnis',
   apiPort: 3000,
-  secret:
-    '5QdYLbXsONJJDkoEyQPk3-aR7vng721veBww9pPglW1tRzp4nnUz3f4AewU-PZl9YyyK590vdErx2KBfTu66GOrUOZs6CO9XzMA:mQ8hddNqA7oVuV0cUuvEl7Hskqbor',
+  sessionSecret:
+    process.env.SECRET || 'lo7er!',
+  sessionCollection: 'sessions',
   jwt: {
-    session: false,
+    session: true,
     secret:
       '5QdYLbXsONJJDkoEyQPk3aR7vng721veBww9pPglW1tRzp4nnUz3f4AewUPZl9YyyK590vdErx2KBfTu66GOrUOZs6CO9XzMAmQ8hddNqA7oVuV0cUuvEl7Hskqbor'
   },

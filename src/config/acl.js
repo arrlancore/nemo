@@ -13,13 +13,16 @@ export default dbConnection => {
   acl.allow([
     {
       roles: 'admin',
-      allows: [{ resources: '/api/adminonly', permissions: '*' }]
+      allows: [
+        { resources: '/api/adminonly', permissions: '*' },
+        { resources: '/api/role', permissions: '*' },
+        { resources: '/api/role/:id', permissions: '*' }
+      ]
     },
     {
       roles: 'user',
       allows: []
     }
   ])
-
   aclStore.acl = acl
 }

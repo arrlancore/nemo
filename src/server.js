@@ -8,28 +8,30 @@ import aclConfig from './config/acl'
 
 const app = express()
 
-// initialize express
-expressConfig(app)
-
+async function connectDb () {
+  let result = await mongoose.connect(
+    config.db,
+    config.dbOptions,
+    err => {
+      if (err) {
+        console.log(`[MongoDB] Failed to connect. ${err}`)
+      } else {
+        console.log(`[MongoDB] connected: ${config.db}`)
+        authorizationSetup()
+      }
+    }
+  )
+  return result
+}
+// mongoose.set('useFindAndModify', false)
+const db = connectDb()
+expressConfig(app, db)
 app.use(auth.initialize())
 auth.setJwtStrategy()
-// mongoose.set('useFindAndModify', false)
-mongoose.connect(
-  config.db,
-  config.dbOptions,
-  err => {
-    if (err) {
-      console.log(`[MongoDB] Failed to connect. ${err}`)
-    } else {
-      console.log(`[MongoDB] connected: ${config.db}`)
-      authorizationSetup()
-    }
-  }
-)
-
 app.listen(config.apiPort, () => {
   console.log(`[Server] listening on port ${config.apiPort}`)
 })
+// initialize express
 
 process.on('unhandledRejection', function (reason, p) {
   console.log('[ERROR] unhandledRejection error:\n', p)

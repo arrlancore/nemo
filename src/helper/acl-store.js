@@ -12,8 +12,11 @@ class AclStore {
   get acl () {
     return this._acl
   }
+
+  get middleware () {
+    return this._acl.middleware()
+  }
 }
 
 const aclStore = new AclStore()
-
 export default aclStore
