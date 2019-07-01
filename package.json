@@ -1,5 +1,5 @@
 {
-  "name": "express-jwt-acl-mongoose-starter",
+  "name": "neo-project",
   "version": "0.0.1",
   "description": "Express & Mongoose starter kit written in ES6 for NodeJS.",
   "main": "src/server.js",
@@ -7,11 +7,11 @@
     "type": "git",
     "url": "https://github.com/patrickvaler/express-jwt-acl-mongoose-starter.git"
   },
-  "author": "Patrick Valer <hello@patrickvaler.ch>",
+  "author": "arrlancore",
   "license": "MIT",
   "dependencies": {
     "acl": "^0.4.11",
-    "bcrypt-nodejs": "^0.0.3",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "bunyan-express-serializer": "^1.0.0",
     "connect-mongo": "^2.0.3",
@@ -24,6 +24,7 @@
     "mongoose": "^5.4.22",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
+    "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
@@ -33,6 +34,7 @@
     "babel-preset-node6": "^11.0.0",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
+    "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",
@@ -43,12 +45,12 @@
     "nodemon": "^1.18.10"
   },
   "scripts": {
-    "dev": "NODE_ENV=dev nodemon src/server.js --exec \"npm run lint -s && babel-node\"",
-    "start": "NODE_ENV=prod nodemon src/server.js --exec \"npm run lint -s && babel-node\"",
-    "build": "NODE_ENV=prod babel src --out-dir build",
+    "dev": "cross-env NODE_ENV=dev nodemon src/server.js --exec \"npm run lint -s && babel-node\"",
+    "start": "cross-env NODE_ENV=prod nodemon src/server.js --exec \"npm run lint -s && babel-node\"",
+    "build": "cross-env NODE_ENV=prod babel src --out-dir build",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "./node_modules/.bin/eslint src --fix",
-    "test": "NODE_ENV=test mocha --timeout 30000 --compilers js:babel-register"
+    "test": "cross-env NODE_ENV=test mocha --timeout 30000 --compilers js:babel-register"
   },
   "engines": {
     "node": "^8 || ^10"
