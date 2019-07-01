@@ -6,8 +6,6 @@ import auth from './config/auth'
 import routesConfig from './config/routes'
 import aclConfig from './config/acl'
 
-const app = express()
-
 async function connectDb () {
   let result = await mongoose.connect(
     config.db,
@@ -24,6 +22,7 @@ async function connectDb () {
   return result
 }
 
+const app = express()
 const db = connectDb()
 mongoose.set('useFindAndModify', false)
 mongoose.set('useCreateIndex', true)

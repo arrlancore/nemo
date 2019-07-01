@@ -1,9 +1,20 @@
 'use strict'
 
-/**
- * Default config for all environment types
- * @type {{db: string, apiPort: number}}
- */
+// Load env variable from .env file
+function loadEnv () {
+  const dotenv = require('dotenv')
+  const result = dotenv.config()
+
+  if (result.error) {
+    throw result.error
+  }
+  console.log('[Loaded] .env')
+}
+if (process.env.NODE_ENV !== 'production') {
+  loadEnv() // on production use your version control env variable
+}
+
+// setup the default config
 const defaultConfig = {
   appName: 'backend-app',
   db: 'mongodb://admin:mySecretP4ssword@ds137862.mlab.com:37862/dev-pbisnis',
@@ -22,9 +33,9 @@ const defaultConfig = {
   },
   client: {
     google: {
-      clientID: process.env.GOOGLE_CLIENT_ID || '722492836155-fbuu4qqakp39urk46giu3q3qm4hm1hj7.apps.googleusercontent.com',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'f1rxtn0nyv0MFZA78l1Udvoz',
-      callback: process.env.GOOGLE_CLIENT_CALLBACK || 'http://ftumj.arlan.net/'
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callback: process.env.GOOGLE_CLIENT_CALLBACK
     }
   }
 }
