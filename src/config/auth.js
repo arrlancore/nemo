@@ -5,6 +5,8 @@ import passportJwt from 'passport-jwt'
 import User from '../api/user/models'
 import config from './config'
 
+const GoogleStrategy = require('passport-google-oauth20').Strategy
+
 export default {
   initialize: () => passport.initialize(),
   setJwtStrategy
@@ -24,4 +26,11 @@ function setJwtStrategy () {
     })
   })
   passport.use(strategy)
+  passport.use(new GoogleStrategy(config.client.google,
+    function (accessToken, refreshToken, profile, cb) {
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return cb(err, user)
+      })
+    }
+  ))
 }
