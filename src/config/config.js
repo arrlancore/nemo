@@ -7,7 +7,7 @@
 const defaultConfig = {
   appName: 'backend-app',
   db: 'mongodb://admin:mySecretP4ssword@ds137862.mlab.com:37862/dev-pbisnis',
-  apiPort: 3000,
+  apiPort: 3030,
   sessionSecret:
     process.env.SECRET || 'lo7er!',
   sessionCollection: 'sessions',
@@ -19,6 +19,13 @@ const defaultConfig = {
   dbOptions: {
     useCreateIndex: true,
     useNewUrlParser: true
+  },
+  client: {
+    google: {
+      clientID: process.env.GOOGLE_CLIENT_ID || '722492836155-fbuu4qqakp39urk46giu3q3qm4hm1hj7.apps.googleusercontent.com',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'f1rxtn0nyv0MFZA78l1Udvoz',
+      callback: process.env.GOOGLE_CLIENT_CALLBACK || 'http://ftumj.arlan.net/'
+    }
   }
 }
 

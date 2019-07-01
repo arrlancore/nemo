@@ -23,8 +23,11 @@ async function connectDb () {
   )
   return result
 }
-// mongoose.set('useFindAndModify', false)
+
 const db = connectDb()
+mongoose.set('useFindAndModify', false)
+mongoose.set('useCreateIndex', true)
+mongoose.set('useNewUrlParser', true)
 expressConfig(app, db)
 app.use(auth.initialize())
 auth.setJwtStrategy()
