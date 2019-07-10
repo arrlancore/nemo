@@ -1,6 +1,7 @@
 'use strict'
 
 import Role from './models'
+const ObjectId = require('mongoose').Types.ObjectId
 
 export default {
   create,
@@ -21,7 +22,7 @@ function create (data) {
 
 function read (id) {
   try {
-    return Role.findOne({ _id: id })
+    return Role.findOne({ _id: new ObjectId(id) })
   } catch (error) {
     throw new Error(error)
   }

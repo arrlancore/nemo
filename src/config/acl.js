@@ -14,14 +14,10 @@ export default dbConnection => {
     {
       roles: 'admin',
       allows: [
-        { resources: '/api/adminonly', permissions: '*' },
+        { resources: '/api/users', permissions: ['get'] },
         { resources: '/api/role', permissions: '*' },
         { resources: '/api/role/:id', permissions: '*' }
       ]
-    },
-    {
-      roles: 'user',
-      allows: []
     }
   ])
   aclStore.acl = acl

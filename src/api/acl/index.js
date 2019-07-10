@@ -1,6 +1,17 @@
 'use strict'
 
+// import controllers from './controllers'
+// import aclStore from '../../helper/acl-store'
+
+// const moduleName = 'acl'
+
 export default (app) => {
-  app.get(`/acl`, (req, res) => { res.send('<div>hello</div>') })
+  // const protectAllResource = aclStore.middleware
+  // app.use(protectAllResource)
+  // app.get(`/${moduleName}`, controllers.list)
+  //   .post(`/${moduleName}`, controllers.create)
+  // app.get(`/${moduleName}/:id`, controllers.read)
+  //   .put(`/${moduleName}/:id`, controllers.read)
+  //   .delete(`/${moduleName}/:id`, controllers.read)
   return app
 }

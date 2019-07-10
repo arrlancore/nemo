@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 // setup the default config
 const defaultConfig = {
   appName: 'backend-app',
-  db: 'mongodb://admin:mySecretP4ssword@ds137862.mlab.com:37862/dev-pbisnis',
+  db: 'mongodb://username123:password123@ds349587.mlab.com:49587/ftumj-db',
   apiPort: 3030,
   sessionSecret:
     process.env.SECRET || 'lo7er!',
@@ -45,6 +45,7 @@ const defaultConfig = {
  * @type {{prod: {}, dev: {}, test: {apiPort: number}}}
  */
 const envConfig = {
+  seed: {},
   prod: {},
   dev: {},
   test: {

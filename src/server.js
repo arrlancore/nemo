@@ -5,6 +5,9 @@ import expressConfig from './config/express'
 import auth from './config/auth'
 import routesConfig from './config/routes'
 import aclConfig from './config/acl'
+import { startSeed } from './helper/seed'
+
+const seedDb = process.env.NODE_ENV === 'seed'
 
 async function connectDb () {
   let result = await mongoose.connect(
@@ -24,23 +27,26 @@ async function connectDb () {
 
 const app = express()
 const db = connectDb()
-mongoose.set('useFindAndModify', false)
-mongoose.set('useCreateIndex', true)
-mongoose.set('useNewUrlParser', true)
-expressConfig(app, db)
-app.use(auth.initialize())
-auth.setJwtStrategy()
-app.listen(config.apiPort, () => {
-  console.log(`[Server] listening on port ${config.apiPort}`)
-})
-// initialize express
+if (seedDb) {
+  startSeed(db)
+} else {
+  mongoose.set('useFindAndModify', false)
+  mongoose.set('useCreateIndex', true)
+  mongoose.set('useNewUrlParser', true)
+  expressConfig(app, db)
+  app.use(auth.initialize())
+  auth.setJwtStrategy()
+  app.listen(config.apiPort, () => {
+    console.log(`[Server] listening on port ${config.apiPort}`)
+  })
+  // initialize express
 
-process.on('unhandledRejection', function (reason, p) {
-  console.log('[ERROR] unhandledRejection error:\n', p)
-  console.dir(reason)
-  console.log(reason.stack)
-})
-
+  process.on('unhandledRejection', function (reason, p) {
+    console.log('[ERROR] unhandledRejection error:\n', p)
+    console.dir(reason)
+    console.log(reason.stack)
+  })
+}
 function authorizationSetup () {
   aclConfig(mongoose.connection.db)
 
