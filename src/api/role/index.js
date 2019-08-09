@@ -1,13 +1,14 @@
 'use strict'
 
 import controllers from './controllers'
-import aclStore from '../../helper/acl-store'
+// import aclStore from '../../helper/acl-store'
+import permit from '../../config/policy'
 
 const moduleName = 'role'
 
 export default (app) => {
-  const protectAllResource = aclStore.middleware
-  app.use(protectAllResource)
+  // const protectAllResource = aclStore.middleware
+  app.use(permit)
   app.get(`/${moduleName}`, controllers.list)
     .post(`/${moduleName}`, controllers.create)
   app.get(`/${moduleName}/:id`, controllers.read)

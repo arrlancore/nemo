@@ -31,6 +31,29 @@ const UserSchema = new mongoose.Schema({
     type: [String],
     default: ['user']
   },
+  firstName: {
+    type: String,
+    required: [true, 'First name is required']
+  },
+  lastName: {
+    type: String,
+    default: ''
+  },
+  fullName: {
+    type: String,
+    default: ''
+  },
+  username: {
+    type: String,
+    required: [true, 'Username is required']
+  },
+  phone: {
+    type: String,
+    required: [true, 'Phone number is required']
+  },
+  deviceIds: {
+    type: [String]
+  },
   status: {
     type: String,
     enum: ['confirmed', 'pending', 'blocked'],
@@ -54,6 +77,11 @@ UserSchema.pre('save', function preSave (next) {
     const salt = bcrypt.genSaltSync(10)
     // set hash
     this.password = bcrypt.hashSync(this.password, salt)
+  }
+  if (this.isNew || this.isModified('firstName') || this.isModified('lastName')) {
+    this.fullName = this.lastName
+      ? `${this.firstName} ${this.lastName}`
+      : this.firstName
   }
 
   const now = new Date()
