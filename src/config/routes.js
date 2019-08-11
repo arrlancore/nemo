@@ -2,12 +2,12 @@
 
 import aclStore from '../helper/acl-store'
 import { Router } from 'express'
-
-const fs = require('fs')
-const path = require('path')
+import packageJson from '../../package.json'
 const swaggerJSDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
 
+const fs = require('fs')
+const path = require('path')
 const API = '/api'
 
 const sourceApi = path.resolve('./src/api')
@@ -18,6 +18,11 @@ export default app => {
   /**
    * Public
    */
+  app.get(API, async (req, res) => {
+    await setTimeout(async () => {
+      res.json({ version: await packageJson.version })
+    }, 100)
+  })
 
   let modules = fs.readdirSync(sourceApi)
   let pathModule = []
@@ -60,6 +65,7 @@ export default app => {
     res.send(swaggerSpec)
   })
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+
   /**
    * Private
    */

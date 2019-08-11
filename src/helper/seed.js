@@ -17,7 +17,6 @@ const getObjectIds = names => {
 const mapToEntities = names => {
   return names.map(name => {
     const id = getObjectId(name)
-
     return {
       id,
       name
@@ -30,6 +29,10 @@ const userData = {
   role: 'admin',
   roles: ['admin'],
   email: 'admin@abc.com',
+  username: 'admin@abc.com',
+  firstName: 'admin',
+  lastName: 'super',
+  phone: '123',
   password: 'Password2019',
   createdAt: new Date(),
   updatedAt: new Date(),
