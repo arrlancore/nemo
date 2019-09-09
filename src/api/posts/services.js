@@ -1,6 +1,6 @@
 'use strict'
 
-import MasterKelas from './models'
+import Post from './models'
 const ObjectId = require('mongoose').Types.ObjectId
 
 export default {
@@ -8,12 +8,13 @@ export default {
   update,
   read,
   remove,
-  list
+  list,
+  readSlug
 }
 
 function create (data) {
   try {
-    const newEntry = new MasterKelas(data)
+    const newEntry = new Post(data)
     return newEntry.save()
   } catch (error) {
     throw new Error(error)
@@ -22,9 +23,19 @@ function create (data) {
 
 function read (id) {
   try {
-    return MasterKelas.findOne({ _id: new ObjectId(id) })
-      .populate('gedung')
+    return Post.findOne({ _id: new ObjectId(id) })
       .populate('createdBy', 'fullName')
+      .populate('author', 'fullName')
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+function readSlug (slug) {
+  try {
+    return Post.findOne({ slug })
+      .populate('createdBy', 'fullName')
+      .populate('author', 'fullName')
   } catch (error) {
     throw new Error(error)
   }
@@ -37,14 +48,14 @@ function list (query) {
     if (query._id) {
       condition._id = query._id
     }
-    if (query.namaKelas) {
-      condition.namaKelas = {
-        $regex: new RegExp(query.namaKelas)
+    if (query.title) {
+      condition.title = {
+        $regex: new RegExp(query.title)
       }
     }
-    if (query.deskripsi) {
-      condition.deskripsi = {
-        $regex: new RegExp(query.deskripsi)
+    if (query.content) {
+      condition.content = {
+        $regex: new RegExp(query.content)
       }
     }
     // set a custom field selected
@@ -65,10 +76,10 @@ function list (query) {
       options.sort = query.sort
     }
     return Promise.all([
-      MasterKelas.find(condition, selected, options)
-        .populate('gedung', 'namaGedung')
+      Post.find(condition, selected, options)
+        .populate('author', 'fullName')
         .populate('createdBy', 'fullName'),
-      MasterKelas.countDocuments(condition)
+      Post.countDocuments(condition)
     ])
   } catch (error) {
     throw new Error(error)
@@ -77,7 +88,7 @@ function list (query) {
 
 function update (id, data) {
   try {
-    return MasterKelas.updateOne({ _id: id }, { $set: data })
+    return Post.updateOne({ _id: id }, { $set: data })
   } catch (error) {
     throw new Error(error)
   }
@@ -85,7 +96,7 @@ function update (id, data) {
 
 function remove (id) {
   try {
-    return MasterKelas.remove({ _id: id })
+    return Post.remove({ _id: id })
   } catch (error) {
     throw new Error(error)
   }

@@ -45,7 +45,8 @@ const UserSchema = new mongoose.Schema({
   },
   username: {
     type: String,
-    required: [true, 'Username is required']
+    required: [true, 'Username is required'],
+    unique: true
   },
   phone: {
     type: String,
@@ -82,6 +83,10 @@ UserSchema.pre('save', function preSave (next) {
     this.fullName = this.lastName
       ? `${this.firstName} ${this.lastName}`
       : this.firstName
+  }
+
+  if (!this.username) {
+    this.username = this.fullName.split(' ').join('').toLowerCase() + String(Date.now()).slice(-3)
   }
 
   const now = new Date()

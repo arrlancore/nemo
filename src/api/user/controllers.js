@@ -1,8 +1,9 @@
 'use strict'
 
 import service from './services'
+// import aclStore from '../../helper/acl-store'
 
-const moduleName = 'tag'
+const moduleName = 'user'
 module.exports = {
   add,
   edit,
@@ -16,7 +17,6 @@ async function add (req, res) {
     const data = req.body
     if (req.user) {
       data.createdBy = req.user._id
-      data.author = req.user._id
     }
     const response = await service.create(data)
     res.send({ data: response, message: 'new ' + moduleName + ' has been successfully created' })

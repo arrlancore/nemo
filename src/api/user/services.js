@@ -1,11 +1,15 @@
 'use strict'
 
 import User from './models'
+const ObjectId = require('mongoose').Types.ObjectId
 
 export default {
   getUserByEmail,
   create,
-  remove
+  remove,
+  update,
+  list,
+  read
 }
 
 function getUserByEmail (email) {
@@ -28,6 +32,72 @@ function create (data) {
 function remove (id) {
   try {
     return User.remove({ _id: id })
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+function read (id) {
+  try {
+    return User.findOne({ _id: new ObjectId(id) })
+      .populate('createdBy', 'fullName')
+      .populate('author', 'fullName')
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+function list (query) {
+  try {
+    // filter the list
+    let condition = {}
+    if (query._id) {
+      condition._id = query._id
+    }
+    if (query.email) {
+      condition.email = {
+        $regex: new RegExp(query.email)
+      }
+    }
+    if (query.fullName) {
+      condition.fullName = {
+        $regex: new RegExp(query.fullName)
+      }
+    }
+    if (query.userName) {
+      condition.userName = {
+        $regex: new RegExp(query.userName)
+      }
+    }
+    // set a custom field selected
+    let selected = query.selected || null
+    // set options for sorting & pagination
+    let options = {
+      limit: 25,
+      skip: 0,
+      sort: 'createdAt'
+    }
+    if (query.limit) {
+      options.limit = Number(query.limit)
+    }
+    if (query.page) {
+      options.skip = (Number(query.page) - 1) * query.limit
+    }
+    if (query.sort) {
+      options.sort = query.sort
+    }
+    return Promise.all([
+      User.find(condition, selected, options),
+      User.countDocuments(condition)
+    ])
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+function update (id, data) {
+  try {
+    return User.updateOne({ _id: id }, { $set: data })
   } catch (error) {
     throw new Error(error)
   }

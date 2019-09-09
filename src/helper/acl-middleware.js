@@ -18,7 +18,7 @@ function aclMiddleware (req, res, next) {
     }
     if (!allowed) {
       return res.status(403).send({
-        message: 'Insufficient permissions to access resource'
+        message: 'You are not allowed to access the resource'
       })
     }
     next()

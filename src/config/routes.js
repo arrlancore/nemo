@@ -32,7 +32,7 @@ export default app => {
     pathModule = [...pathModule, ('./src/api/' + directoryName + '/index.js')]
     app.use(API, module.default(Router()))
   }
-
+  console.log(pathModule)
   const options = {
     definition: {
       openapi: '3.0.0', // Specification (optional, defaults to swagger: '2.0')

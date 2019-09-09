@@ -20,14 +20,10 @@ function create (data) {
   }
 }
 
-function read (query) {
+function read (id) {
   try {
-    const { id } = query
-    let filter = query
-    if (id) {
-      filter = { _id: new ObjectId(id) }
-    }
-    return Tag.findOne(filter).populate('createdBy', 'fullName')
+    return Tag.findOne({ _id: new ObjectId(id) })
+      .populate('createdBy', 'fullName')
   } catch (error) {
     throw new Error(error)
   }
@@ -40,14 +36,14 @@ function list (query) {
     if (query._id) {
       condition._id = query._id
     }
-    if (query.namaGedung) {
-      condition.namaGedung = {
-        $regex: new RegExp(query.namaGedung)
+    if (query.name) {
+      condition.name = {
+        $regex: new RegExp(query.name)
       }
     }
-    if (query.deskripsi) {
-      condition.deskripsi = {
-        $regex: new RegExp(query.deskripsi)
+    if (query.description) {
+      condition.description = {
+        $regex: new RegExp(query.description)
       }
     }
     // set a custom field selected

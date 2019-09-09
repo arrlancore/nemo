@@ -11,15 +11,6 @@ export default dbConnection => {
 
   // allow some routes
   const roleRoutes = '/api/role'
-  const masterKelasRoutes = '/api/master-kelas'
-  const masterGedungRoutes = '/api/master-gedung'
-  const masterJamPerkuliahanRoutes = '/api/master-jam-perkuliahan'
-  const masterJurusanRoutes = '/api/master-jurusan'
-  const masterMataKuliahRoutes = '/api/master-mata-kuliah'
-  const masterPerkuliahanRoutes = '/api/master-perkuliahan'
-  const presensiDosenRoutes = '/api/presensi-dosen'
-  const presensiMahasiswaRoutes = '/api/presensi-mahasiswa'
-  const perkuliahanBerjalanRoutes = '/api/perkuliahan-berjalan'
   const userRoutes = '/api/users'
 
   // Set roles
@@ -29,20 +20,13 @@ export default dbConnection => {
       allows: [
         ...generateAdminCrudRoute(userRoutes),
         ...generateAdminCrudRoute(roleRoutes),
-        ...generateAdminCrudRoute(masterKelasRoutes),
-        ...generateAdminCrudRoute(masterGedungRoutes),
-        ...generateAdminCrudRoute(masterJamPerkuliahanRoutes),
-        ...generateAdminCrudRoute(masterJurusanRoutes),
-        ...generateAdminCrudRoute(masterMataKuliahRoutes),
-        ...generateAdminCrudRoute(masterPerkuliahanRoutes),
-        ...generateAdminCrudRoute(presensiDosenRoutes),
-        ...generateAdminCrudRoute(perkuliahanBerjalanRoutes),
-        ...generateAdminCrudRoute(presensiMahasiswaRoutes),
-        { resources: `${presensiMahasiswaRoutes}/ambil`, permissions: ['put'] },
-        { resources: `${presensiMahasiswaRoutes}/report`, permissions: ['get'] }
+        { resources: `${roleRoutes}/:id`, permissions: ['get'] }
       ]
     }
   ])
+
+  // acl.removeAllow('admin', '/api/role', '*', (err) => { if (err) console.log('errr', err) })
+  // acl.removeAllow('admin', '/api/role/:id', 'get', (err) => { if (err) console.log('errr', err) })
 
   function generateAdminCrudRoute (routes) {
     return [

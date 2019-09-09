@@ -39,8 +39,22 @@ async function login (req, res) {
 
 async function signup (req, res) {
   try {
-    const { email, password } = req.body
-    const user = await services.create({ email, password })
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      username,
+      phone
+    } = req.body
+    const user = await services.create({
+      email,
+      password,
+      firstName,
+      lastName,
+      username,
+      phone
+    })
     await aclStore.acl.addUserRoles(user._id.toString(), user.role, err => {
       if (err) {
         throw new Error(err)

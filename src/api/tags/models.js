@@ -3,7 +3,7 @@
 import mongoose from 'mongoose'
 
 const TagSchema = new mongoose.Schema({
-  tagName: {
+  name: {
     type: String,
     unique: true,
     max: 32,
@@ -16,6 +16,9 @@ const TagSchema = new mongoose.Schema({
     type: String
   },
   color: {
+    type: String
+  },
+  image: {
     type: String
   },
   createdAt: {

@@ -4,13 +4,15 @@ import controllers from './controllers'
 import aclMiddleware from '../../helper/acl-middleware'
 
 const moduleName = 'tag'
+const moduleNamePublic = 'v1/public/tag'
 
 export default (app) => {
-  app.use(aclMiddleware)
-  app.get(`/${moduleName}`, controllers.list)
-    .post(`/${moduleName}`, controllers.add)
-  app.get(`/${moduleName}/view`, controllers.view)
-    .put(`/${moduleName}/edit`, controllers.edit)
-    .delete(`/${moduleName}/remove`, controllers.remove)
+  app.get(`/${moduleNamePublic}`, aclMiddleware, controllers.list)
+  app.get(`/${moduleNamePublic}/one`, aclMiddleware, controllers.read)
+  app.get(`/${moduleName}`, aclMiddleware, controllers.list)
+    .post(`/${moduleName}`, aclMiddleware, controllers.add)
+  app.get(`/${moduleName}/one`, aclMiddleware, controllers.read)
+    .put(`/${moduleName}/one`, aclMiddleware, controllers.edit)
+    .delete(`/${moduleName}/one`, aclMiddleware, controllers.remove)
   return app
 }

@@ -1,17 +1,15 @@
 'use strict'
 
 import controllers from './controllers'
-// import aclStore from '../../helper/acl-store'
-// import permit from '../../config/policy'
+import aclMiddleware from '../../helper/acl-middleware'
 
 const moduleName = 'role'
 
 export default (app) => {
-  // const protectAllResource = aclStore.middleware
-  app.get(`/${moduleName}`, controllers.list)
-    .post(`/${moduleName}`, controllers.create)
-  app.get(`/${moduleName}/:id`, controllers.read)
-    .put(`/${moduleName}/:id`, controllers.read)
-    .delete(`/${moduleName}/:id`, controllers.read)
+  app.get(`/${moduleName}`, aclMiddleware, controllers.list)
+    .post(`/${moduleName}`, aclMiddleware, controllers.add)
+  app.get(`/${moduleName}/one`, aclMiddleware, controllers.read)
+    .put(`/${moduleName}/one`, aclMiddleware, controllers.edit)
+    .delete(`/${moduleName}/one`, aclMiddleware, controllers.remove)
   return app
 }
