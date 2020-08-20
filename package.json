@@ -12,7 +12,7 @@
   "dependencies": {
     "acl": "^0.4.11",
     "babel-cli": "^6.26.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "bunyan-express-serializer": "^1.0.0",
     "connect-mongo": "^2.0.3",
